@@ -1,0 +1,29 @@
+/* Definição da animação usando @keyframes */
+@keyframes slideIn {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Classe CSS para aplicar a animação */
+.slideIn {
+  animation-name: slideIn;
+  animation-duration: 1.8s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+
+/* Exemplo de uso em um elemento */
+/*
+  .meu-elemento-animado {
+    // Outros estilos do seu elemento, como largura, altura, cor, etc.
+    // ...
+    // Aplicação da animação
+    animation: slideIn 0.8s ease-in-out forwards;
+  }
+*/
