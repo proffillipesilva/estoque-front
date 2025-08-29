@@ -8,7 +8,8 @@ const LoginForm = () => {
 
     const submitForm = async (e) => {
         e.preventDefault();
-        await LoginService.login({email: "ana@coord.com", password: "123456"})
+        const data = await LoginService.login({email: "ana@coord.com", password: "123456"})
+        localStorage.setItem("accessToken", data.token)
     }
   return (
     <div className="flex slideIn items-center justify-center  bg-gray-100">
