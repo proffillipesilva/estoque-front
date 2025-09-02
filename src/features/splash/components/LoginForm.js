@@ -6,9 +6,11 @@ import LoginService from '../services/LoginService';
 
 const LoginForm = () => {
 
+  const [form,setForm] = React.useState({email: "", password: ''})
+
     const submitForm = async (e) => {
         e.preventDefault();
-        const data = await LoginService.login({email: "ana@coord.com", password: "123456"})
+        const data = await LoginService.login(form)
         localStorage.setItem("accessToken", data.token)
     }
   return (
@@ -26,7 +28,9 @@ const LoginForm = () => {
                 <input
                   id="email"
                   type="email"
+                  name='email'
                   placeholder="Email"
+                  onChange={(e) => setForm({...form, [e.target.name]: e.target.value})}
                   className="appearance-none border-none w-full bg-transparent text-gray-700 leading-tight focus:outline-none"
                 />
               </div>
@@ -41,7 +45,9 @@ const LoginForm = () => {
                 <input
                   id="password"
                   type="password"
+                  name='password'
                   placeholder="********"
+                  onChange={(e) => setForm({...form, [e.target.name]: e.target.value})}
                   className="appearance-none border-none w-full bg-transparent text-gray-700 leading-tight focus:outline-none"
                 />
               </div>
