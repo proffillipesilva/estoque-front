@@ -3,15 +3,38 @@ import React from 'react';
 import { MdEmail, MdLock } from 'react-icons/md';
 import './LoginForm.css'
 import LoginService from '../services/LoginService';
+import { useAuth } from '../../../shared/context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import useAuthStore from '../../../shared/store/auth-store';
+import { jwtDecode } from 'jwt-decode';
+
+
 
 const LoginForm = () => {
+
+  const navigate = useNavigate();
+
+  //const { login } = useAuth()
+  const {setAuthData} = useAuthStore();
+
 
   const [form,setForm] = React.useState({email: "", password: ''})
 
     const submitForm = async (e) => {
         e.preventDefault();
-        const data = await LoginService.login(form)
-        localStorage.setItem("accessToken", data.token)
+        
+        // Isso eu pego do backend
+        const responseData = await LoginService.login(form)
+        const receivedTokenFromBackend = responseData.token;
+        localStorage.setItem("accessToken", receivedTokenFromBackend)
+
+        const decodedUser = jwtDecode(receivedTokenFromBackend);
+        // Armazena o token e as informações decodificadas no Zustand
+        setAuthData(receivedTokenFromBackend, decodedUser);
+        console.log('Dados do usuário decodificados e armazenados:', decodedUser);
+        
+        navigate("/home")
+
     }
   return (
     <div className="flex slideIn items-center justify-center  bg-gray-100">
