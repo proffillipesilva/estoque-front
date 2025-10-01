@@ -7,6 +7,7 @@ import { useAuth } from '../../../shared/context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../../../shared/store/auth-store';
 import { jwtDecode } from 'jwt-decode';
+import useUserStore from '../../../shared/store/user-store';
 
 
 
@@ -16,6 +17,8 @@ const LoginForm = () => {
 
   //const { login } = useAuth()
   const {setAuthData} = useAuthStore();
+
+  const {setMe} = useUserStore();
 
 
   const [form,setForm] = React.useState({email: "", password: ''})
@@ -33,6 +36,10 @@ const LoginForm = () => {
         setAuthData(receivedTokenFromBackend, decodedUser);
         console.log('Dados do usuário decodificados e armazenados:', decodedUser);
         
+        const me = await LoginService.me();
+        setMe(me.tipo, me)
+    
+
         navigate("/home")
 
     }

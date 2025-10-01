@@ -51,6 +51,24 @@ const LoginService = {
 
       throw new Error(errorMessage);
     }
+  },
+
+  /**
+   * Realiza o login de um usuário.
+   * @param {object} loginData - As credenciais de login do usuário (email, password).
+   * @returns {Promise<object>} - Uma Promise que resolve para os dados do usuário logado.
+   */
+  async me() {
+    try {
+      // Usa a instância 'api' para fazer a chamada. A baseURL já está configurada.
+      const response = await api.get('/v1/api/users/me');
+      return response.data;
+    } catch (error) {
+      console.error('Erro no me:', error.response || error);
+
+  
+      throw new Error(error.response.data.message);
+    }
   }
 
 };
