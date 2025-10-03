@@ -11,7 +11,7 @@ import useUserStore from '../../../shared/store/user-store';
 
 
 
-const LoginForm = () => {
+const LoginForm = ({goToRegister}) => {
 
   const navigate = useNavigate();
 
@@ -40,7 +40,6 @@ const LoginForm = () => {
         setMe(me.tipo, me)
     
 
-        navigate("/home")
 
     }
   return (
@@ -96,7 +95,7 @@ const LoginForm = () => {
 
           {/* Link para Cadastro */}
           <div className="flex items-center justify-center">
-            <a
+            <a onClick={goToRegister}
               className="w-full text-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline transition-colors duration-200"
               href="#"
             >
