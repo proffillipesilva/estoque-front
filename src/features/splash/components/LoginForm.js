@@ -28,6 +28,7 @@ const LoginForm = ({goToRegister}) => {
         
         // Isso eu pego do backend
         const responseData = await LoginService.login(form)
+        console.log(responseData)
         const receivedTokenFromBackend = responseData.token;
         localStorage.setItem("accessToken", receivedTokenFromBackend)
 

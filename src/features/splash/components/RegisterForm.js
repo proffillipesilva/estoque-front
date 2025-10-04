@@ -8,10 +8,11 @@ import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../../../shared/store/auth-store';
 import { jwtDecode } from 'jwt-decode';
 import useUserStore from '../../../shared/store/user-store';
+import FormComponent from '../../../shared/components/FormComponent';
 
 
 
-const RegisterForm = ({goToLogin}) => {
+const RegisterForm = ({ goToLogin, goToCompleteRegistration }) => {
 
   const navigate = useNavigate();
 
@@ -21,27 +22,36 @@ const RegisterForm = ({goToLogin}) => {
   const { setMe } = useUserStore();
 
 
-  const [form, setForm] = React.useState({ email: "", password: "", tipo: "" })
+  const [form, setForm] = React.useState({name: "", email: "", password: "", tipo: "Admin" })
+  const [errorMessages, setErrorMessages] = React.useState({name: "", email: "", password: "", tipo: "" })
+
 
   const submitForm = async (e) => {
     e.preventDefault();
 
-    // Isso eu pego do backend
-    const responseData = await LoginService.register(form)
-    const receivedTokenFromBackend = responseData.token;
-    localStorage.setItem("accessToken", receivedTokenFromBackend)
-
-    const decodedUser = jwtDecode(receivedTokenFromBackend);
-    // Armazena o token e as informações decodificadas no Zustand
-    setAuthData(receivedTokenFromBackend, decodedUser);
-    console.log('Dados do usuário decodificados e armazenados:', decodedUser);
-
-    const me = await LoginService.me();
-    setMe(me.tipo, me)
-
+    console.log(form)
+   goToCompleteRegistration(form);
+   
+   //setErrorMessages({...errorMessages, name: "Faltou colocar string correta"})
 
 
   }
+
+  const myForm = [
+    { fieldName: "name", type: "text",  placeholder: "Insert your name",
+       errorMessages,
+       form, setForm: setForm, icon: <MdPerson className="text-gray-400 mr-2" size={20} /> },
+
+    { fieldName: "email", type: "email",  placeholder: "Insert your email",
+       errorMessages,
+       form, setForm: setForm, icon: <MdEmail className="text-gray-400 mr-2" size={20} /> },
+
+    { fieldName: "password", type: "password",  placeholder: "Insert your password",
+       errorMessages,
+       form, setForm: setForm, icon: <MdLock className="text-gray-400 mr-2" size={20} /> },
+
+  ]
+
   return (
     <div className="flex slideIn items-center justify-center  bg-gray-100">
       <div className="bg-white  p-8 rounded-lg shadow-xl w-full max-w-sm animate-slideIn">
@@ -49,55 +59,11 @@ const RegisterForm = ({goToLogin}) => {
 
 
         <form>
-          {/* Campo de Nome */}
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
-              <div className="flex items-center border rounded-md py-2 px-3 text-gray-700 leading-tight focus-within:ring-2 focus-within:ring-blue-500">
-                <MdPerson className="text-gray-400 mr-2" size={20} />
-                <input
-                  id="name"
-                  type="name"
-                  name='name'
-                  placeholder="Name"
-                  onChange={(e) => setForm({ ...form, [e.target.name]: e.target.value })}
-                  className="appearance-none border-none w-full bg-transparent text-gray-700 leading-tight focus:outline-none"
-                />
-              </div>
-            </label>
-          </div>
-          {/* Campo de Email */}
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
-              <div className="flex items-center border rounded-md py-2 px-3 text-gray-700 leading-tight focus-within:ring-2 focus-within:ring-blue-500">
-                <MdEmail className="text-gray-400 mr-2" size={20} />
-                <input
-                  id="email"
-                  type="email"
-                  name='email'
-                  placeholder="Email"
-                  onChange={(e) => setForm({ ...form, [e.target.name]: e.target.value })}
-                  className="appearance-none border-none w-full bg-transparent text-gray-700 leading-tight focus:outline-none"
-                />
-              </div>
-            </label>
-          </div>
 
-          {/* Campo de Senha */}
-          <div className="mb-6">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
-              <div className="flex items-center border rounded-md py-2 px-3 text-gray-700 leading-tight focus-within:ring-2 focus-within:ring-blue-500">
-                <MdLock className="text-gray-400 mr-2" size={20} />
-                <input
-                  id="password"
-                  type="password"
-                  name='password'
-                  placeholder="********"
-                  onChange={(e) => setForm({ ...form, [e.target.name]: e.target.value })}
-                  className="appearance-none border-none w-full bg-transparent text-gray-700 leading-tight focus:outline-none"
-                />
-              </div>
-            </label>
-          </div>
+          {myForm.map(e => (
+            FormComponent(e)
+          ))}
+
           {/* Campo de Tipo */}
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="type">
@@ -134,7 +100,7 @@ const RegisterForm = ({goToLogin}) => {
               </div>
             </label>
           </div>
-        
+
 
           {/* Botão de Registro */}
           <div className="flex items-center justify-center mb-4">
@@ -142,7 +108,7 @@ const RegisterForm = ({goToLogin}) => {
               className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline transition-colors duration-200"
               type="button"
             >
-              REGISTER
+              COMPLETE YOUR REGISTRATION
             </button>
           </div>
 

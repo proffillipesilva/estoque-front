@@ -38,6 +38,7 @@ const LoginService = {
     try {
       // Usa a instância 'api' para fazer a chamada. A baseURL já está configurada.
       const response = await api.post('/v1/api/auth/login', loginData);
+      console.log(response)
       return response.data;
     } catch (error) {
       console.error('Erro no login:', error.response || error);
