@@ -70,7 +70,27 @@ const LoginService = {
   
       throw new Error(error.response.data.message);
     }
-  }
+  },
+
+  async sendToken(tokenData) {
+    try {
+      // Usa a instância 'api' para fazer a chamada. A baseURL já está configurada.
+      const response = await api.put('/v1/api/notifications/token', tokenData);
+      console.log(response)
+      return response.data;
+    } catch (error) {
+      console.error('Erro no envio do token:', error.response || error);
+
+      let errorMessage = 'Erro ao fazer login. Por favor, tente novamente.';
+      if (error.response && error.response.status === 401) {
+        errorMessage = 'Email ou senha inválidos.';
+      } else if (error.response && error.response.data && error.response.data.message) {
+        errorMessage = error.response.data.message;
+      }
+
+      throw new Error(errorMessage);
+    }
+  },
 
 };
 

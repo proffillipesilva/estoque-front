@@ -16,7 +16,7 @@ const LoginForm = ({goToRegister}) => {
   const navigate = useNavigate();
 
   //const { login } = useAuth()
-  const {setAuthData} = useAuthStore();
+  const {setAuthData, fcmToken} = useAuthStore();
 
   const {setMe} = useUserStore();
 
@@ -36,6 +36,9 @@ const LoginForm = ({goToRegister}) => {
         // Armazena o token e as informações decodificadas no Zustand
         setAuthData(receivedTokenFromBackend, decodedUser);
         console.log('Dados do usuário decodificados e armazenados:', decodedUser);
+
+        // aqui eu passo o token
+        await LoginService.sendToken({fcmToken})
         
         const me = await LoginService.me();
         setMe(me.tipo, me)
