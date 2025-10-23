@@ -24,6 +24,7 @@ const LoginForm = ({goToRegister}) => {
   const [form,setForm] = React.useState({email: "", password: ''})
 
     const submitForm = async (e) => {
+      try{
         e.preventDefault();
         
         // Isso eu pego do backend
@@ -42,6 +43,9 @@ const LoginForm = ({goToRegister}) => {
         
         const me = await LoginService.me();
         setMe(me.tipo, me)
+      } catch(err){
+        
+      }
     
 
 

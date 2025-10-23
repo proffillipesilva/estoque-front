@@ -43,6 +43,7 @@ const RegisterComplete = ({ goBackToRegister, form, setForm }) => {
     const me = await LoginService.me();
     setMe(me.tipo, me)
     */
+   await LoginService.register();
 
 
   }

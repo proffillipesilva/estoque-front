@@ -13,6 +13,9 @@ import React from 'react';
 import { Toaster } from 'react-hot-toast'; // Importe o componente Toaster
 import { requestForToken, onMessageListener } from './firebase';
 import useAuthStore from './shared/store/auth-store';
+import StatusModal from './shared/components/StatusModal';
+import ProdutosPage from './features/produtos/ProdutosPage';
+import ProdutoPage from './features/produtos/[id]/ProdutoPage';
 
 function App() {
   const [token, setToken] = React.useState(null);
@@ -47,12 +50,18 @@ function App() {
 
   return (
     <div className="App">
+      <StatusModal />
       {/*<AuthProvider> */}
       <Router>
         <PrivateRoute>
           <Navbar />
           <Routes>
             <Route path='/home' element={<HomeScreen />} />
+            {/* Rota para a lista de produtos (página inicial) */}
+          <Route path="/produtos" element={<ProdutosPage />} />
+          
+          {/* Rota para os detalhes do produto, com um parâmetro dinâmico ":id" */}
+          <Route path="/produtos/:id" element={<ProdutoPage />} />
           </Routes>
         </PrivateRoute>
         <PublicRoute>
@@ -89,6 +98,7 @@ function App() {
           </p>
         )}
       </div>
+      
 
       {/* O componente Toaster deve ser renderizado uma única vez em um nível superior */}
       <Toaster />

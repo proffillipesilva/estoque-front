@@ -9,7 +9,7 @@ const PublicRoute = ({children}) => {
   return (
    
      
-    user == null ? children : <Navigate to={"/home"} replace />
+    user == null ? children : null
     
   )
 }
